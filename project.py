@@ -1,72 +1,53 @@
-import random 
-import time
+import math
 
-# Pick a number between 1 and 100
-number=random.randint(1, 100) 
+class Circle:
+    """
+    Represents a circle with methods to compute its area and perimeter.
+    """
+    def __init__(self, radius):
+        """
+        Initializes the Circle object with a given radius.
 
-def intro():
-	print("May I ask you for your name?")
-	# declaring name variable global so it can be accessed outside the function
-	global name
-	name = input() #asks for the name
-	print(name + ", we are going to play a game. I am thinking of a number between 1 and 100")
-	if(number%2==0):
-		x='even'
-	else:
-		x='odd'
-	print("\nThis is an {} number".format(x))
-	time.sleep(.5)
-	print("Go ahead. Guess!")
+        Args:
+            radius (float or int): The radius of the circle.
+        """
+        if not isinstance(radius, (int, float)) or radius <= 0:
+            raise ValueError("Radius must be a positive number")
+        self.radius = radius
 
-def pick():
-	guessesTaken = 0
+    def area(self):
+        """
+        Computes the area of the circle using the formula A = π * r^2.
 
-	#if the number of guesses is less than 6
-	while guessesTaken < 6:
-		time.sleep(.25)
-		#inserts the place to enter guess
-		enter=input("Guess: ") 
+        Returns:
+            float: The area of the circle.
+        """
+        return math.pi * (self.radius ** 2)
 
-		#check if a number was entered
-		try: 
+    def perimeter(self):
+        """
+        Computes the perimeter (circumference) of the circle using the formula C = 2 * π * r.
 
-			#stores the guess as an integer instead of a string 
-			guess = int(enter)    
+        Returns:
+            float: The perimeter of the circle.
+        """
+        return 2 * math.pi * self.radius
 
-			if guess<=100 and guess>=1: #if they are in range
-				guessesTaken=guessesTaken+1 #adds one guess each time the player is wrong
-				if guessesTaken<6:
-					if guess<number:
-						print("The guess of the number that you have entered is too low")
-					if guess>number:
-						print("The guess of the number that you have entered is too high")
-					if guess != number:
-						time.sleep(.5)
-						print("Try Again!")
-				
-				#if the guess is right, then we are going to jump out of the while block
-					if guess==number:
-						break 
+# --- Example Usage ---
+if __name__ == "__main__":
+    # Create a Circle object with a radius of 5
+    my_circle = Circle(5)
 
-			
-			if guess>100 or guess<1: 
-				print("Silly Goose! That number isn't in the range!")
-				time.sleep(.25)
-				print("Please enter a number between 1 and 100")
+    # Compute and print the area
+    circle_area = my_circle.area()
+    print(f"The area of the circle is: {circle_area:.2f}")
 
-		except: #if a number wasn't entered
-			print("I don't think that "+enter+" is a number. Sorry")
-			
-	if guess == number:
-		guessesTaken = str(guessesTaken)
-		print('Good job, {}! You guessed my number in {} guesses!'.format(name, guessesTaken))
+    # Compute and print the perimeter
+    circle_perimeter = my_circle.perimeter()
+    print(f"The perimeter of the circle is: {circle_perimeter:.2f}")
 
-	if guess != number:
-		print('Nope. The number I was thinking of was ' + str(number))
-
-playagain="yes"
-while playagain=="yes" or playagain=="y" or playagain=="Yes":
-	intro()
-	pick()
-	print("Do you want to play again?")
-	playagain=input()
+    # Example with a different radius
+    another_circle = Circle(12.5)
+    print(f"\nFor a circle with radius 12.5:")
+    print(f"Area: {another_circle.area():.2f}")
+    print(f"Perimeter: {another_circle.perimeter():.2f}")
